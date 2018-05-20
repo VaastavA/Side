@@ -1,11 +1,13 @@
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GraphGen {
+    private static final Pattern QUADRATIC_FORM = Pattern.compile("([+-]?\\d+)[Xx]2\\s*([+-]?\\d+)[Xx]\\s*([+-]?\\d+)\\s*");
     private Line[] graph = new Line[201];
     private String input = "";
     private int a, b, c;
-    private static String tp = "x\\^2";
 
     public GraphGen() {
         for (int i = 0; i < 201; i++) {
@@ -22,7 +24,7 @@ public class GraphGen {
             try {
                 parse(input);
             } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(null, "Invalid Input!\nEnter function of the format Ax^2+Bx+C", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Invalid Input!\nEnter function of the format Ax2+Bx+C", "Error", JOptionPane.ERROR_MESSAGE);
                 continue;
             }
             break;
@@ -30,11 +32,13 @@ public class GraphGen {
     }
 
     public void parse(String s) throws NumberFormatException {
-        String[] partA = s.split(tp);
-        a = Integer.parseInt(partA[0]);
-        String[] partB = partA[1].split("x");
-        b = Integer.parseInt(partB[0]);
-        c = Integer.parseInt(partB[1]);
+        Matcher matcher = QUADRATIC_FORM.matcher(s);
+        if (!matcher.matches()) {
+            throw new NumberFormatException();
+        }
+        a = Integer.parseInt(matcher.group(1));
+        b = Integer.parseInt(matcher.group(2));
+        c = Integer.parseInt(matcher.group(3));
     }
 
     class Line {
@@ -74,6 +78,6 @@ public class GraphGen {
         System.out.println("x^2");
         GraphGen a = new GraphGen();
         a.takeInput();
-        a.graph[1].print();
+        System.out.println(String.format("%d,%d,%d",a.a,a.b,a.c));
     }
 }
