@@ -39,11 +39,29 @@ public class GraphGen {
         a = Integer.parseInt(matcher.group(1));
         b = Integer.parseInt(matcher.group(2));
         c = Integer.parseInt(matcher.group(3));
+        compute();
+    }
+
+    public void compute() {
+        for (int i = -100; i <= 200; i++) {
+            float q = (a * i * i) + (b * i) + c;
+            int t = Math.round(q);
+            if (t >= -100 && t <= 100) {
+                graph[t + 100].addPoint(i + 100);
+            }
+        }
+    }
+
+    //Print bottom to top pls
+    public void print() {
+        for (int i = 200; i >= 0; i--) {
+            graph[i].print();
+        }
     }
 
     class Line {
         private String[] sample = new String[201];
-        private String DOT = "*";
+        private String DOT = ".";
         private String PLUS = "+";
 
         Line() {
@@ -56,7 +74,7 @@ public class GraphGen {
             }
         }
 
-        public void AddPoint(int a) {
+        public void addPoint(int a) {
             sample[a] = PLUS;
         }
 
@@ -75,9 +93,11 @@ public class GraphGen {
     }
 
     public static void main(String[] args) {
-        System.out.println("x^2");
         GraphGen a = new GraphGen();
+        a.print();
+        System.out.println();
         a.takeInput();
-        System.out.println(String.format("%d,%d,%d",a.a,a.b,a.c));
+        a.print();
+
     }
 }
