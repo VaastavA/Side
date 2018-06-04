@@ -43,7 +43,7 @@ public class GraphGen {
     }
 
     public void compute() {
-        for (int i = -100; i <= 200; i++) {
+        for (int i = -100; i <= 100; i++) {
             float q = (a * i * i) + (b * i) + c;
             int t = Math.round(q);
             if (t >= -100 && t <= 100) {
@@ -93,11 +93,17 @@ public class GraphGen {
     }
 
     public static void main(String[] args) {
-        GraphGen a = new GraphGen();
-        a.print();
-        System.out.println();
-        a.takeInput();
-        a.print();
+        while (true) {
+            GraphGen a = new GraphGen();
+            a.print();
+            System.out.println();
+            a.takeInput();
+            a.print();
+            int answer = JOptionPane.showConfirmDialog(null,"Do you want to plot again?","Confrim",JOptionPane.YES_NO_OPTION);
+            if(answer == JOptionPane.NO_OPTION){
+                break;
+            }
+        }
 
     }
 }
