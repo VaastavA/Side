@@ -1,13 +1,11 @@
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class GraphGen {
-    private static final Pattern QUADRATIC_FORM = Pattern.compile("([+-]?\\d+)[Xx]2\\s*([+-]?\\d+)[Xx]\\s*([+-]?\\d+)\\s*");
     private Line[] graph = new Line[201];
     private String input = "";
-    private int a, b, c;
+    private int degree;
+    private double coeffs[];
 
     public GraphGen() {
         for (int i = 0; i < 201; i++) {
@@ -20,7 +18,7 @@ public class GraphGen {
 
     public void takeInput() {
         while (true) {
-            input = JOptionPane.showInputDialog("Enter Function :");
+            input = JOptionPane.showInputDialog("Enter Degree of function :");
             try {
                 parse(input);
             } catch (NumberFormatException nfe) {
@@ -32,25 +30,41 @@ public class GraphGen {
     }
 
     public void parse(String s) throws NumberFormatException {
-        Matcher matcher = QUADRATIC_FORM.matcher(s);
-        if (!matcher.matches()) {
+        degree = Integer.parseInt(s);
+        if (degree < 0) {
             throw new NumberFormatException();
         }
-        a = Integer.parseInt(matcher.group(1));
-        b = Integer.parseInt(matcher.group(2));
-        c = Integer.parseInt(matcher.group(3));
+        coeffs = new double[degree + 1];
+
+        for (int i = 0; i < degree + 1; ) {
+            String coeffer = JOptionPane.showInputDialog("Enter " + i + " degree coefficent: ");
+            double temp;
+            try {
+                temp = Double.parseDouble(coeffer);
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(null, "Number entered is not integer", "Error", JOptionPane.ERROR_MESSAGE);
+                continue;
+            }
+            coeffs[i] = temp;
+            i++;
+        }
         compute();
     }
 
     public void compute() {
-        for (int i = -100; i <= 100; i++) {
-            float q = (a * i * i) + (b * i) + c;
-            int t = Math.round(q);
-            if (t >= -100 && t <= 100) {
-                graph[t + 100].addPoint(i + 100);
+        for (int i = 0; i < 201; i++) {
+
+            double temp = 0;
+            for (int j = 0; j < degree + 1; j++) {
+                temp += coeffs[j] * Math.pow(i - 100, j);
+            }
+            int temper = (int) Math.round(temp);
+            if (temper <= 100 && temper >= -100) {
+                graph[temper+100].addPoint(i);
             }
         }
     }
+
 
     //Print bottom to top pls
     public void print() {
@@ -90,6 +104,7 @@ public class GraphGen {
             }
             System.out.print("\n");
         }
+
     }
 
     public static void main(String[] args) {
@@ -99,11 +114,11 @@ public class GraphGen {
             System.out.println();
             a.takeInput();
             a.print();
-            int answer = JOptionPane.showConfirmDialog(null,"Do you want to plot again?","Confrim",JOptionPane.YES_NO_OPTION);
-            if(answer == JOptionPane.NO_OPTION){
+            int answer = JOptionPane.showConfirmDialog(null, "Do you want to plot again?", "Confrim", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.NO_OPTION) {
+                System.out.println("Thank you for using GraphGen");
                 break;
             }
         }
-
     }
 }
