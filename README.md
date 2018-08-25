@@ -1,1 +1,1 @@
-Quadratic function graph with 200x200 dimensions 
+Collection of side projects
