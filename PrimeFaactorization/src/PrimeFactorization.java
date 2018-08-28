@@ -1,3 +1,6 @@
+import jdk.nashorn.internal.scripts.JO;
+
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class PrimeFactorization {
@@ -12,11 +15,11 @@ public class PrimeFactorization {
 
     public void factorize() {
         int number = getNumber1();
-        if(number<0){
+        if (number < 0) {
             factors.add(-1);
             number *= -1;
         }
-        if(number ==0){
+        if (number == 0) {
             factors.add(0);
             return;
         }
@@ -32,14 +35,14 @@ public class PrimeFactorization {
         }
     }
 
-    public String print(){
+    public String print() {
         String factors = "";
         ArrayList<Integer> printIt = getFactors();
-        for(Integer i : printIt){
-            factors += (i+" x ");
+        for (Integer i : printIt) {
+            factors += (i + " x ");
         }
         int lastX = factors.lastIndexOf('x');
-        factors = factors.substring(0,lastX);
+        factors = factors.substring(0, lastX);
 
         return factors;
     }
@@ -61,8 +64,28 @@ public class PrimeFactorization {
     }
 
     public static void main(String[] args) {
-        PrimeFactorization pf = new PrimeFactorization(Integer.parseInt(args[0]));
-        pf.factorize();
-        System.out.println(pf.print());
+        while (true) {
+            int argument = 0;
+            while (true) {
+                String input = JOptionPane.showInputDialog(null, "Enter Number to Prime Factorize: ", "Prime Factorizer", JOptionPane.PLAIN_MESSAGE);
+                try {
+                    argument = Integer.parseInt(input);
+                    break;
+                } catch (NumberFormatException nfe) {
+                    JOptionPane.showMessageDialog(null, "Input is not an Integer", "Error", JOptionPane.ERROR_MESSAGE);
+                    continue;
+                }
+            }
+            PrimeFactorization pf = new PrimeFactorization(argument);
+            pf.factorize();
+            JOptionPane.showMessageDialog(null, pf.print());
+            int answer = JOptionPane.showConfirmDialog(null, "Do you want to try another number?", "Rerun", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(null, "Thank you for using Primefactorizer", "Exit", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            } else if (answer == JOptionPane.YES_OPTION) {
+                continue;
+            }
+        }
     }
 }
