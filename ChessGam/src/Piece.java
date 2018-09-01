@@ -1,6 +1,6 @@
 public class Piece {
     private String name;
-    private char symbol;
+    private String symbol;
     private boolean colour;  //white true black false
     private boolean life;
     private ChessBoard.ChessBoardBLock current;
@@ -10,15 +10,21 @@ public class Piece {
         this.name = name;
         symbol = parseSymbol(name);
     }
-    public char boardPrint() {
-        return getSymbol();
-    }
 
     public String getName() {
         return name;
     }
 
-    public char getSymbol() {
+    public ChessBoard.ChessBoardBLock getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(ChessBoard.ChessBoardBLock current) {
+        this.current = current;
+    }
+
+    public String getSymbol() {
+
         return symbol;
     }
 
@@ -26,7 +32,7 @@ public class Piece {
         this.name = name;
     }
 
-    public void setSymbol(char symbol) {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 
@@ -38,27 +44,27 @@ public class Piece {
         this.colour = colour;
     }
 
-    public char parseSymbol(String name){
+    public String parseSymbol(String name){
         if(name.equalsIgnoreCase("King")){
-            return 'K';
+            return "K";
         }
         else if(name.equalsIgnoreCase("Queen")){
-            return 'K';
+            return "Q";
         }
         else if(name.equalsIgnoreCase("Knight")){
-            return 'K';
+            return "N";
         }
         else if(name.equalsIgnoreCase("Bishop")){
-            return 'K';
+            return "B";
         }
         else if(name.equalsIgnoreCase("Rook")){
-            return 'K';
+            return "R";
         }
         else if(name.equalsIgnoreCase("Pawn")){
-            return 'K';
+            return "P";
         }
         else {
-            return ' ';
+            return "";
         }
 
     }
