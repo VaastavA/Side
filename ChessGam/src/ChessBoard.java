@@ -90,6 +90,12 @@ public class ChessBoard {
         return board;
     }
 
+    public ChessBoardBLock getBlock(char c,int i){
+        if(c>='A' && c<='H' && i<9 && i>0){
+            return board[c-65][i-1];
+        }else return null;
+    }
+
     public void setBoard(ChessBoardBLock[][] board) {
         this.board = board;
     }

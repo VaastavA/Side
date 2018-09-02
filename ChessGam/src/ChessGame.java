@@ -1,8 +1,11 @@
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChessGame {
     private ChessBoard chessBoard;
     private Piece[] pieces;
+    private static final Pattern MOVES = Pattern.compile("(\\w)(\\d)\\s*(\\w)(\\d)");
 
     public ChessBoard getChessBoard() {
         return chessBoard;
@@ -38,31 +41,60 @@ public class ChessGame {
         startBoard();
 
     }
-    public void startBoard(){
-        for(int i=0;i<8;i++){
-            chessBoard.move(pieces[i],chessBoard.getBoard()[0][i]);
-            chessBoard.move(pieces[i+8],chessBoard.getBoard()[1][i]);
+
+    private void startBoard() {
+        for (int i = 0; i < 8; i++) {
+            chessBoard.move(pieces[i], chessBoard.getBoard()[0][i]);
+            chessBoard.move(pieces[i + 8], chessBoard.getBoard()[1][i]);
         }
-        for (int i=16;i<24;i++){
-            chessBoard.move(pieces[i],chessBoard.getBoard()[7][i-16]);
-            chessBoard.move(pieces[i+8],chessBoard.getBoard()[6][i-16]);
+        for (int i = 16; i < 24; i++) {
+            chessBoard.move(pieces[i], chessBoard.getBoard()[7][i - 16]);
+            chessBoard.move(pieces[i + 8], chessBoard.getBoard()[6][i - 16]);
         }
     }
 
-    public void startGame(){
-        do{
-            Scanner s = new Scanner(System.in);
-            int moves = 0;
-            if(moves%2==0){
+    public void startGame() {
+        Scanner s = new Scanner(System.in);
+        String input = "";
+        int moves = 0;
+        do {
+            chessBoard.printBoard();
+            if (moves % 2 != 0) {
                 System.out.println("Black's turn: ");
-            }else{
+                input = s.nextLine();
+                if (input.equalsIgnoreCase("I")) intrcutions();
+                if (parseMove(input)) moves++;
+                else System.out.println("Bad input. Type I for instructions.");
+            } else {
                 System.out.println("White's turn: ");
+                input = s.nextLine();
+                if (input.equalsIgnoreCase("I")) intrcutions();
+                if (parseMove(input)) moves++;
+                else System.out.println("Bad input. Type I for instructions.");
             }
-        }while(pieces[5].isLife() && pieces[5+16].isLife());
+        } while (pieces[5].isLife() && pieces[5 + 16].isLife());
+    }
+
+    public boolean parseMove(String input) {
+        Matcher m = MOVES.matcher(input);
+        if (m.matches()) {
+            ChessBoard.ChessBoardBLock temp1 = getChessBoard().getBlock(m.group(1).charAt(0), Integer.parseInt(m.group(2)));
+            ChessBoard.ChessBoardBLock temp2 = getChessBoard().getBlock(m.group(3).charAt(0), Integer.parseInt(m.group(4)));
+            if (temp1 == null || temp2 == null || temp1.getPiece() == null || temp2.getPiece() == null) return false;
+            else {
+                getChessBoard().move(temp1.getPiece(),temp2);
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public void intrcutions() {
     }
 
     public static void main(String[] args) {
         ChessGame chessGame = new ChessGame();
-        chessGame.getChessBoard().printBoard();
+        chessGame.startGame();
     }
 }
