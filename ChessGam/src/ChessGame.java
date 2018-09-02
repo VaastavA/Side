@@ -1,10 +1,20 @@
+import java.util.Scanner;
+
 public class ChessGame {
     private ChessBoard chessBoard;
     private Piece[] pieces;
 
+    public ChessBoard getChessBoard() {
+        return chessBoard;
+    }
+
+    public void setChessBoard(ChessBoard chessBoard) {
+        this.chessBoard = chessBoard;
+    }
+
     public ChessGame() {
         chessBoard = new ChessBoard();
-        pieces = new Piece[16];
+        pieces = new Piece[32];
         int a;
         boolean col;
         a = 0;
@@ -24,5 +34,35 @@ public class ChessGame {
             }
             col = false;
         }
+
+        startBoard();
+
+    }
+    public void startBoard(){
+        for(int i=0;i<8;i++){
+            chessBoard.move(pieces[i],chessBoard.getBoard()[0][i]);
+            chessBoard.move(pieces[i+8],chessBoard.getBoard()[1][i]);
+        }
+        for (int i=16;i<24;i++){
+            chessBoard.move(pieces[i],chessBoard.getBoard()[7][i-16]);
+            chessBoard.move(pieces[i+8],chessBoard.getBoard()[6][i-16]);
+        }
+    }
+
+    public void startGame(){
+        do{
+            Scanner s = new Scanner(System.in);
+            int moves = 0;
+            if(moves%2==0){
+                System.out.println("Black's turn: ");
+            }else{
+                System.out.println("White's turn: ");
+            }
+        }while(pieces[5].isLife() && pieces[5+16].isLife());
+    }
+
+    public static void main(String[] args) {
+        ChessGame chessGame = new ChessGame();
+        chessGame.getChessBoard().printBoard();
     }
 }

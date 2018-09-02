@@ -6,7 +6,7 @@ public class ChessBoard {
     public ChessBoard() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                board[i][j] = new ChessBoardBLock((char)('A'+i),j);
+                board[i][j] = new ChessBoardBLock((char) ('A' + i), j);
             }
         }
     }
@@ -14,33 +14,35 @@ public class ChessBoard {
     public void printBoard() {
         System.out.println("Chess Board\n\n");
         System.out.println(LINE);
-        for (int i = 0; i < 8; i++) {
-            System.out.print((i+1)+" ");
+        for (int i = 7; i > -1; i--) {
+            System.out.print((i) + " ");
             for (int j = 0; j < 8; j++) {
-                System.out.print("|" + board[i][j]);
+                System.out.print("|" + board[i][j].toString());
             }
             System.out.print("|\n");
             System.out.println(LINE);
         }
-        System.out.println("     A    B    C    D    E    F    G    I  ");
+        System.out.println("     A    B    C    D    E    F    G    H  ");
     }
 
     public void move(Piece piece, ChessBoardBLock chessBoardBLock) {
-        if(chessBoardBLock.getPiece()!=null){
+        if (chessBoardBLock.getPiece() != null) {
             chessBoardBLock.getPiece().setLife(false);
         }
-        piece.getCurrent().setPiece(null);
+        if (piece.getCurrent() != null) {
+            piece.getCurrent().setPiece(null);
+        }
         piece.setCurrent(chessBoardBLock);
         chessBoardBLock.setPiece(piece);
 
     }
 
-    class ChessBoardBLock{
+    class ChessBoardBLock {
         private char row;
         private int column;
         private Piece piece;
 
-        public ChessBoardBLock(char row,int column){
+        public ChessBoardBLock(char row, int column) {
             this.row = row;
             this.column = column;
         }
@@ -72,22 +74,30 @@ public class ChessBoard {
 
         @Override
         public String toString() {
-            if(getPiece()==null){
+            if (getPiece() == null) {
                 return "    ";
-            }else{
-                if(getPiece().isColour()){
-                    return "Wh "+getPiece().getSymbol();
-                }
-                else{
-                    return "Bl "+getPiece().getSymbol();
+            } else {
+                if (getPiece().isColour()) {
+                    return "wh " + getPiece().getSymbol();
+                } else {
+                    return "bL " + getPiece().getSymbol();
                 }
             }
         }
     }
 
+    public ChessBoardBLock[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(ChessBoardBLock[][] board) {
+        this.board = board;
+    }
+
     public static void main(String[] args) {
         ChessBoard chessBoard = new ChessBoard();
         chessBoard.printBoard();
+
     }
 
 }

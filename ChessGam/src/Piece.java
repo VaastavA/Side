@@ -8,7 +8,10 @@ public class Piece {
 
     public Piece(String name, boolean colour){
         this.name = name;
+        this.colour = colour;
+        life = true;
         symbol = parseSymbol(name);
+
     }
 
     public String getName() {
