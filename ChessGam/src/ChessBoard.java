@@ -6,7 +6,7 @@ public class ChessBoard {
     public ChessBoard() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                board[i][j] = new ChessBoardBLock((char) ('A' + i), j);
+                board[i][j] = new ChessBoardBLock(j, (char) ('A' + i));
             }
         }
     }
@@ -15,7 +15,7 @@ public class ChessBoard {
         System.out.println("Chess Board\n\n");
         System.out.println(LINE);
         for (int i = 7; i > -1; i--) {
-            System.out.print((i) + " ");
+            System.out.print((i + 1) + " ");
             for (int j = 0; j < 8; j++) {
                 System.out.print("|" + board[i][j].toString());
             }
@@ -38,17 +38,21 @@ public class ChessBoard {
     }
 
     class ChessBoardBLock {
-        private char row;
-        private int column;
+        private int row;
+        private char column;
         private Piece piece;
 
-        public ChessBoardBLock(char row, int column) {
+        public ChessBoardBLock(int row, char column) {
             this.row = row;
             this.column = column;
         }
 
-        public char getRow() {
-            return row;
+        public void setRow(int row) {
+            this.row = row;
+        }
+
+        public void setColumn(char column) {
+            this.column = column;
         }
 
         public void setRow(char row) {
@@ -67,10 +71,6 @@ public class ChessBoard {
             this.piece = piece;
         }
 
-        public void setColumn(int column) {
-
-            this.column = column;
-        }
 
         @Override
         public String toString() {
@@ -90,10 +90,12 @@ public class ChessBoard {
         return board;
     }
 
-    public ChessBoardBLock getBlock(char c,int i){
-        if(c>='A' && c<='H' && i<9 && i>0){
-            return board[c-65][i-1];
-        }else return null;
+    public ChessBoardBLock getBlock(char c, int i) {
+        if (c >= 'A' && c <= 'H' && i < 9 && i > 0) {
+            System.out.println((c - 'A') + "   " + (i - 1));
+            System.out.println(board[i-1][c-'A'].getPiece());
+            return board[i - 1][c - 'A'];
+        } else return null;
     }
 
     public void setBoard(ChessBoardBLock[][] board) {

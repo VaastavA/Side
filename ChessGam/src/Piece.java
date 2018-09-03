@@ -80,9 +80,8 @@ public class Piece {
         this.life = life;
     }
 
-    public void kill(){
-        setLife(false);
+    @Override
+    public String toString() {
+        return getSymbol();
     }
-
-
 }

@@ -45,6 +45,7 @@ public class ChessGame {
     private void startBoard() {
         for (int i = 0; i < 8; i++) {
             chessBoard.move(pieces[i], chessBoard.getBoard()[0][i]);
+            System.out.println(chessBoard.getBoard()[0][i].toString());
             chessBoard.move(pieces[i + 8], chessBoard.getBoard()[1][i]);
         }
         for (int i = 16; i < 24; i++) {
@@ -78,9 +79,13 @@ public class ChessGame {
     public boolean parseMove(String input) {
         Matcher m = MOVES.matcher(input);
         if (m.matches()) {
+            System.out.println(m.group(1));
+            System.out.println(m.group(2));
+            System.out.println(m.group(3));
+            System.out.println(m.group(4));
             ChessBoard.ChessBoardBLock temp1 = getChessBoard().getBlock(m.group(1).charAt(0), Integer.parseInt(m.group(2)));
             ChessBoard.ChessBoardBLock temp2 = getChessBoard().getBlock(m.group(3).charAt(0), Integer.parseInt(m.group(4)));
-            if (temp1 == null || temp2 == null || temp1.getPiece() == null || temp2.getPiece() == null) return false;
+            if (temp1 == null || temp2 == null || temp1.getPiece() == null) return false;
             else {
                 getChessBoard().move(temp1.getPiece(),temp2);
                 return true;
@@ -95,6 +100,7 @@ public class ChessGame {
 
     public static void main(String[] args) {
         ChessGame chessGame = new ChessGame();
+        System.out.println(chessGame.getChessBoard().getBlock('E',1));
         chessGame.startGame();
     }
 }
