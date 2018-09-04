@@ -5,6 +5,9 @@ import java.util.regex.Pattern;
 public class ChessGame {
     private ChessBoard chessBoard;
     private Piece[] pieces;
+    int moves = 0;
+    ChessBoard.ChessBoardBLock temp1 = null;
+    ChessBoard.ChessBoardBLock temp2 = null;
     private static final Pattern MOVES = Pattern.compile("(\\w)(\\d)\\s*(\\w)(\\d)");
 
     public ChessBoard getChessBoard() {
@@ -45,7 +48,6 @@ public class ChessGame {
     private void startBoard() {
         for (int i = 0; i < 8; i++) {
             chessBoard.move(pieces[i], chessBoard.getBoard()[0][i]);
-            System.out.println(chessBoard.getBoard()[0][i].toString());
             chessBoard.move(pieces[i + 8], chessBoard.getBoard()[1][i]);
         }
         for (int i = 16; i < 24; i++) {
@@ -57,21 +59,24 @@ public class ChessGame {
     public void startGame() {
         Scanner s = new Scanner(System.in);
         String input = "";
-        int moves = 0;
         do {
             chessBoard.printBoard();
             if (moves % 2 != 0) {
                 System.out.println("Black's turn: ");
                 input = s.nextLine();
                 if (input.equalsIgnoreCase("I")) intrcutions();
-                if (parseMove(input)) moves++;
+                if (parseMove(input)) ;
                 else System.out.println("Bad input. Type I for instructions.");
+                if (checkLegal()) moves++;
+                else System.out.println("Illegal Move. Type I for instructions.");
             } else {
                 System.out.println("White's turn: ");
                 input = s.nextLine();
                 if (input.equalsIgnoreCase("I")) intrcutions();
-                if (parseMove(input)) moves++;
+                if (parseMove(input)) ;
                 else System.out.println("Bad input. Type I for instructions.");
+                if (checkLegal()) moves++;
+                else System.out.println("Illegal Move. Type I for instructions.");
             }
         } while (pieces[5].isLife() && pieces[5 + 16].isLife());
     }
@@ -83,11 +88,10 @@ public class ChessGame {
             System.out.println(m.group(2));
             System.out.println(m.group(3));
             System.out.println(m.group(4));
-            ChessBoard.ChessBoardBLock temp1 = getChessBoard().getBlock(m.group(1).charAt(0), Integer.parseInt(m.group(2)));
-            ChessBoard.ChessBoardBLock temp2 = getChessBoard().getBlock(m.group(3).charAt(0), Integer.parseInt(m.group(4)));
+            temp1 = getChessBoard().getBlock(m.group(1).charAt(0), Integer.parseInt(m.group(2)));
+            temp2 = getChessBoard().getBlock(m.group(3).charAt(0), Integer.parseInt(m.group(4)));
             if (temp1 == null || temp2 == null || temp1.getPiece() == null) return false;
             else {
-                getChessBoard().move(temp1.getPiece(),temp2);
                 return true;
             }
         }
@@ -95,12 +99,44 @@ public class ChessGame {
 
     }
 
+    public boolean checkLegal(){
+        //getChessBoard().move(temp1.getPiece(),temp2);        Actually make the move after checking if its legal
+        if((temp1.getPiece().isColour()==true && moves%2!=0) || (temp1.getPiece().isColour()==false && moves%2==0) ){
+            return false;
+        }
+        if(temp2.getPiece()!=null && temp1.getPiece().isColour()==temp2.getPiece().isColour()){
+            return false;
+        }else {
+            if(temp1.getPiece().getSymbol().equals("K")){
+                if(Math.abs(temp1.getRow()-temp2.getRow())>1 && Math.abs(temp1.getColumn()-temp2.getColumn())>1){
+                    return false;
+                    //check for check
+                }else {
+                    getChessBoard().move(temp1.getPiece(),temp2);
+                    return true;
+                }
+            }else if(temp1.getPiece().getSymbol().equals("Q")){
+                if((Math.abs(temp1.getRow()-temp2.getRow())!= Math.abs(temp1.getColumn()-temp2.getColumn()) || Math.abs(temp1.getRow()-temp2.getRow())!=0 || Math.abs(temp1.getRow()-temp2.getRow())!=0)){
+                    return false;
+                }
+                if(Math.abs(temp1.getRow()-temp2.getRow())==0){
+                    //check up/down path for piece
+                }
+                else{
+                    getChessBoard().move(temp1.getPiece(),temp2);
+                    return true;
+                }
+            }else if(temp1.getPiece().getSymbol().equals("P")){
+
+            }
+        }
+    }
+
     public void intrcutions() {
     }
 
     public static void main(String[] args) {
         ChessGame chessGame = new ChessGame();
-        System.out.println(chessGame.getChessBoard().getBlock('E',1));
         chessGame.startGame();
     }
 }

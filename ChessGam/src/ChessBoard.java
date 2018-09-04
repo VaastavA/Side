@@ -55,6 +55,10 @@ public class ChessBoard {
             this.column = column;
         }
 
+        public int getRow() {
+            return row;
+        }
+
         public void setRow(char row) {
             this.row = row;
         }
