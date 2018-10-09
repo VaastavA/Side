@@ -3,7 +3,7 @@ public class Piece {
     private String symbol;
     private boolean colour;  //white true black false
     private boolean life;
-    private ChessBoard.ChessBoardBLock current;
+    private ChessBoard.ChessBoardBLock current;  // the block it is currently on
 
 
     public Piece(String name, boolean colour){

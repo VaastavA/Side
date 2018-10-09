@@ -6,7 +6,7 @@ public class ChessBoard {
     public ChessBoard() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                board[i][j] = new ChessBoardBLock(j, (char) ('A' + i));
+                board[i][j] = new ChessBoardBLock(i, (char) ('A' + j));
             }
         }
     }
@@ -98,7 +98,7 @@ public class ChessBoard {
         if (c >= 'A' && c <= 'H' && i < 9 && i > 0) {
             System.out.println((c - 'A') + "   " + (i - 1));
             System.out.println(board[i-1][c-'A'].getPiece());
-            return board[i - 1][c - 'A'];
+            return board[i - 1][c - 'A'];   //column, rows
         } else return null;
     }
 
