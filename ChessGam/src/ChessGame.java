@@ -80,21 +80,33 @@ public class ChessGame {
                 input = s.nextLine();
                 if (input.equalsIgnoreCase("I")) instrcutions();
                 if (parseMove(input)) ;
-                else { System.out.println("Bad input. Type I for instructions."); continue; }
+                else {
+                    System.out.println("Bad input. Type I for instructions.");
+                    continue;
+                }
                 if (checkLegal()) {
                     moves++;
                     getChessBoard().move(temp1.getPiece(), temp2);
-                } else { System.out.println("Illegal Move. Type I for instructions.") ; continue; }
+                } else {
+                    System.out.println("Illegal Move. Type I for instructions.");
+                    continue;
+                }
             } else {
                 System.out.println("White's turn: ");
                 input = s.nextLine();
                 if (input.equalsIgnoreCase("I")) instrcutions();
                 if (parseMove(input)) ;
-                else { System.out.println("Bad input. Type I for instructions."); continue; }
+                else {
+                    System.out.println("Bad input. Type I for instructions.");
+                    continue;
+                }
                 if (checkLegal()) {
                     moves++;
                     getChessBoard().move(temp1.getPiece(), temp2);
-                } else { System.out.println("Illegal Move. Type I for instructions."); continue; }
+                } else {
+                    System.out.println("Illegal Move. Type I for instructions.");
+                    continue;
+                }
             }
         } while (pieces[5].isLife() && pieces[5 + 16].isLife());
     }
@@ -104,7 +116,7 @@ public class ChessGame {
         if (m.matches()) {
             temp1 = getChessBoard().getBlock(m.group(1).charAt(0), Integer.parseInt(m.group(2)));
             temp2 = getChessBoard().getBlock(m.group(3).charAt(0), Integer.parseInt(m.group(4)));
-            if (temp1 == null || temp2 == null || temp1.getPiece() == null) return false;
+            if (temp1 == null || temp2 == null || temp1.getPiece() == null || temp1 == temp2) return false;
             else {
                 return true;
             }
@@ -123,11 +135,14 @@ public class ChessGame {
             case 'K':
                 break;
             case 'Q':
-                break;
+                return checkQueen();
+            break;
             case 'B':
+                checkBishop();
                 break;
             case 'R':
-                break;
+                return checkRook();
+            break;
             case 'N':
                 break;
         }
@@ -143,24 +158,127 @@ public class ChessGame {
         int horizontal = endColumn - startColumn;
         int vertical = endRow - startRow;
 
-        if (horizontal ==1 || horizontal == -1){
-            if((colour && vertical!=1) || (!colour && vertical!=-1)) return false;
-            if(temp2.getPiece()==null) return false;
+        if (horizontal == 1 || horizontal == -1) {
+            if ((colour && vertical != 1) || (!colour && vertical != -1)) return false;
+            if (temp2.getPiece() == null) return false;
             else return true;
-        }else if(horizontal>1 || horizontal<-1) return false;
+        } else if (horizontal > 1 || horizontal < -1) return false;
         else if (colour) {
             if (vertical <= 0) return false; //moving in right direction for colour
-            if (startRow == 1 && vertical == 2 && getChessBoard().getBoard()[startRow + 1][startColumn-65].getPiece() == null)
+            if (startRow == 1 && vertical == 2 && getChessBoard().getBoard()[startRow + 1][startColumn - 65].getPiece() == null)
                 return true; //start position rule
             else if (vertical != 1) return false; // can only move one position
             else return true;
         } else {
             if (vertical >= 0) return false;
-            if (startRow == 6 && vertical == -2 && getChessBoard().getBoard()[startRow - 1][startColumn-65].getPiece() == null)
+            if (startRow == 6 && vertical == -2 && getChessBoard().getBoard()[startRow - 1][startColumn - 65].getPiece() == null)
                 return true;
             else if (vertical != -1) return false;
             else return true;
         }
+    }
+
+    private boolean checkQueen() {
+        int startRow = temp1.getRow();
+        int startColumn = temp1.getColumn();
+        int endRow = temp2.getRow();
+        int endColumn = temp2.getColumn();
+        boolean colour = temp1.getPiece().isColour();
+        int horizontal = endColumn - startColumn;
+        int vertical = endRow - startRow;
+
+        if (horizontal == 0) {
+            for (int i = startRow; i <= endRow; i++) {
+                if (getChessBoard().getBoard()[i][startColumn].getPiece() != null) return false;
+            }
+            return true;
+        } else if (vertical == 0) {
+            for (int i = startColumn; i <= endColumn; i++) {
+                if (getChessBoard().getBoard()[startRow][i].getPiece() != null) return false;
+            }
+            return true;
+        } else if (Math.abs(vertical) == Math.abs(horizontal)) {
+            if (vertical > 0 && horizontal > 0) {
+                for (int i = 0; i < vertical; i++) {
+                    if (getChessBoard().getBoard()[startRow + i][startColumn + i].getPiece() != null) return false;
+                }
+                return true;
+            } else if (vertical > 0 && horizontal < 0) {
+                for (int i = 0; i < vertical; i++) {
+                    if (getChessBoard().getBoard()[startRow + i][startColumn - i].getPiece() != null) return false;
+                }
+                return true;
+            } else if (vertical < 0 && horizontal > 0) {
+                for (int i = 0; i < vertical; i++) {
+                    if (getChessBoard().getBoard()[startRow - i][startColumn + i].getPiece() != null) return false;
+                }
+                return true;
+            } else if (vertical < 0 && horizontal < 0) {
+                for (int i = 0; i < vertical; i++) {
+                    if (getChessBoard().getBoard()[startRow - i][startColumn - i].getPiece() != null) return false;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkBishop() {
+        int startRow = temp1.getRow();
+        int startColumn = temp1.getColumn();
+        int endRow = temp2.getRow();
+        int endColumn = temp2.getColumn();
+        boolean colour = temp1.getPiece().isColour();
+        int horizontal = endColumn - startColumn;
+        int vertical = endRow - startRow;
+
+        if (Math.abs(vertical) == Math.abs(horizontal)) {
+            if (vertical > 0 && horizontal > 0) {
+                for (int i = 0; i < vertical; i++) {
+                    if (getChessBoard().getBoard()[startRow + i][startColumn + i].getPiece() != null) return false;
+                }
+                return true;
+            } else if (vertical > 0 && horizontal < 0) {
+                for (int i = 0; i < vertical; i++) {
+                    if (getChessBoard().getBoard()[startRow + i][startColumn - i].getPiece() != null) return false;
+                }
+                return true;
+            } else if (vertical < 0 && horizontal > 0) {
+                for (int i = 0; i < vertical; i++) {
+                    if (getChessBoard().getBoard()[startRow - i][startColumn + i].getPiece() != null) return false;
+                }
+                return true;
+            } else if (vertical < 0 && horizontal < 0) {
+                for (int i = 0; i < vertical; i++) {
+                    if (getChessBoard().getBoard()[startRow - i][startColumn - i].getPiece() != null) return false;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private boolean checkRook() {
+        int startRow = temp1.getRow();
+        int startColumn = temp1.getColumn();
+        int endRow = temp2.getRow();
+        int endColumn = temp2.getColumn();
+        boolean colour = temp1.getPiece().isColour();
+        int horizontal = endColumn - startColumn;
+        int vertical = endRow - startRow;
+
+        if (horizontal == 0) {
+            for (int i = startRow; i <= endRow; i++) {
+                if (getChessBoard().getBoard()[i][startColumn].getPiece() != null) return false;
+            }
+            return true;
+        } else if (vertical == 0) {
+            for (int i = startColumn; i <= endColumn; i++) {
+                if (getChessBoard().getBoard()[startRow][i].getPiece() != null) return false;
+            }
+            return true;
+        } else return false;
     }
 
     private boolean underCheck() {
