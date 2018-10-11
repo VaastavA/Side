@@ -32,16 +32,14 @@
       <file leaf-file-name="ChessGame.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ChessGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2088">
-              <caret line="136" column="21" lean-forward="true" selection-start-line="136" selection-start-column="21" selection-end-line="136" selection-end-column="21" />
+            <state relative-caret-position="504">
+              <caret line="56" column="7" lean-forward="true" selection-start-line="56" selection-start-column="7" selection-end-line="56" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#558#559#0" expanded="true" />
                 <element signature="e#591#592#0" expanded="true" />
                 <element signature="e#647#648#0" expanded="true" />
                 <element signature="e#691#692#0" expanded="true" />
-                <element signature="e#10784#10785#0" expanded="true" />
-                <element signature="e#10812#10813#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -329,7 +327,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/ChessGame.java</url>
-          <line>291</line>
+          <line>336</line>
           <properties />
           <option name="timeStamp" value="5" />
         </line-breakpoint>
@@ -341,7 +339,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/ChessGame.java</url>
-          <line>151</line>
+          <line>148</line>
           <properties class="ChessGame" method="checkPawn">
             <option name="EMULATED" value="true" />
           </properties>
@@ -378,8 +376,6 @@
             <element signature="e#591#592#0" expanded="true" />
             <element signature="e#647#648#0" expanded="true" />
             <element signature="e#691#692#0" expanded="true" />
-            <element signature="e#10784#10785#0" expanded="true" />
-            <element signature="e#10812#10813#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -394,8 +390,6 @@
             <element signature="e#591#592#0" expanded="true" />
             <element signature="e#647#648#0" expanded="true" />
             <element signature="e#691#692#0" expanded="true" />
-            <element signature="e#10784#10785#0" expanded="true" />
-            <element signature="e#10812#10813#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -410,8 +404,6 @@
             <element signature="e#591#592#0" expanded="true" />
             <element signature="e#647#648#0" expanded="true" />
             <element signature="e#691#692#0" expanded="true" />
-            <element signature="e#10784#10785#0" expanded="true" />
-            <element signature="e#10812#10813#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -440,8 +432,6 @@
             <element signature="e#591#592#0" expanded="true" />
             <element signature="e#647#648#0" expanded="true" />
             <element signature="e#691#692#0" expanded="true" />
-            <element signature="e#10784#10785#0" expanded="true" />
-            <element signature="e#10812#10813#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -470,8 +460,6 @@
             <element signature="e#591#592#0" expanded="true" />
             <element signature="e#647#648#0" expanded="true" />
             <element signature="e#691#692#0" expanded="true" />
-            <element signature="e#10784#10785#0" expanded="true" />
-            <element signature="e#10812#10813#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -514,16 +502,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ChessGame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2088">
-          <caret line="136" column="21" lean-forward="true" selection-start-line="136" selection-start-column="21" selection-end-line="136" selection-end-column="21" />
+        <state relative-caret-position="504">
+          <caret line="56" column="7" lean-forward="true" selection-start-line="56" selection-start-column="7" selection-end-line="56" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#558#559#0" expanded="true" />
             <element signature="e#591#592#0" expanded="true" />
             <element signature="e#647#648#0" expanded="true" />
             <element signature="e#691#692#0" expanded="true" />
-            <element signature="e#10784#10785#0" expanded="true" />
-            <element signature="e#10812#10813#0" expanded="true" />
           </folding>
         </state>
       </provider>

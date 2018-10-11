@@ -52,7 +52,7 @@ public class ChessGame {
 
     }
 
-    /* Places pieces at the starting postions
+    /* Places pieces at the starting positions
     according to cheese board format
      */
     private void startBoard() {
@@ -78,13 +78,13 @@ public class ChessGame {
             if (moves % 2 != 0) {
                 System.out.println("Black's turn: ");
                 input = s.nextLine();
-                if (input.equalsIgnoreCase("I")) instrcutions();
+                if (input.equalsIgnoreCase("I")) instructions();
                 if (parseMove(input)) ;
                 else {
                     System.out.println("Bad input. Type I for instructions.");
                     continue;
                 }
-                if (checkLegal()) {
+                if (checkLegal() && !underCheck(false)) {
                     moves++;
                     getChessBoard().move(temp1.getPiece(), temp2);
                 } else {
@@ -94,13 +94,13 @@ public class ChessGame {
             } else {
                 System.out.println("White's turn: ");
                 input = s.nextLine();
-                if (input.equalsIgnoreCase("I")) instrcutions();
+                if (input.equalsIgnoreCase("I")) instructions();
                 if (parseMove(input)) ;
                 else {
                     System.out.println("Bad input. Type I for instructions.");
                     continue;
                 }
-                if (checkLegal()) {
+                if (checkLegal() && !underCheck(true)) {
                     moves++;
                     getChessBoard().move(temp1.getPiece(), temp2);
                 } else {
@@ -133,16 +133,13 @@ public class ChessGame {
             case 'P':
                 return checkPawn();
             case 'K':
-                break;
+                return checkKing();
             case 'Q':
                 return checkQueen();
-            break;
             case 'B':
-                checkBishop();
-                break;
+                return checkBishop();
             case 'R':
                 return checkRook();
-            break;
             case 'N':
                 break;
         }
@@ -281,11 +278,59 @@ public class ChessGame {
         } else return false;
     }
 
-    private boolean underCheck() {
-        return false;
+    private boolean checkKing(){
+        int startRow = temp1.getRow();
+        int startColumn = temp1.getColumn();
+        int endRow = temp2.getRow();
+        int endColumn = temp2.getColumn();
+        boolean colour = temp1.getPiece().isColour();
+        int horizontal = endColumn - startColumn;
+        int vertical = endRow - startRow;
+
+        if(temp2.getPiece()!=null) return false;
+        if(Math.abs(horizontal)>1 || Math.abs(vertical)>1) return false;
+        else return true;
     }
 
-    public void instrcutions() {
+    private boolean underCheck(Boolean color) {
+        ChessBoard.ChessBoardBLock actual1 = temp1;
+        ChessBoard.ChessBoardBLock actual2 = temp2;
+        if(color){
+            temp2 = pieces[4].getCurrent();
+            for(int i=15;i<32;i++){
+                temp1 = pieces[i].getCurrent();
+                if(pieces[i].isLife() && checkLegal()) {
+                    temp1 = actual1;
+                    temp2 =actual2;
+                    return true;
+                }
+            }
+            temp1 = actual1;
+            temp2 =actual2;
+            return false;
+        }else {
+            temp2 = pieces[20].getCurrent();
+            for(int i=0;i<16;i++){
+                temp1 = pieces[i].getCurrent();
+                if(pieces[i].isLife() && checkLegal()) {
+                    temp1 = actual1;
+                    temp2 =actual2;
+                    return true;
+                }
+            }
+            temp1 = actual1;
+            temp2 =actual2;
+            return false;
+        }
+    }
+
+    public void instructions() {
+        System.out.println("Instruction:\n\n");
+        System.out.println("Input must be of the form [Column][Row]<Space>[Column][Row] ");
+        System.out.println("Each [Column][Row] pair represents a location");
+        System.out.println("The first location determines which piece you would like to move and the second determines which location you want to move it to");
+        System.out.println("Columns range from A to H and Rows range from 1 to 8");
+        System.out.println("");
     }
 
     public static void main(String[] args) {
