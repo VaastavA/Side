@@ -11,6 +11,7 @@ public class ChessGame {
     int moves = 0;
     ChessBoard.ChessBoardBLock temp1 = null;
     ChessBoard.ChessBoardBLock temp2 = null;
+    Piece martyr = null;
     private static final Pattern MOVES = Pattern.compile("(\\w)(\\d)\\s*(\\w)(\\d)"); // format the move needs to be given in
 
     public ChessBoard getChessBoard() {
@@ -78,17 +79,24 @@ public class ChessGame {
             if (moves % 2 != 0) {
                 System.out.println("Black's turn: ");
                 input = s.nextLine();
-                if (input.equalsIgnoreCase("I")) instructions();
+                if (input.equalsIgnoreCase("I")) { instructions(); continue; }
                 if (parseMove(input)) ;
                 else {
                     System.out.println("Bad input. Type I for instructions.");
                     continue;
                 }
-                if (checkLegal() && !underCheck(false)) {
+                if (checkLegal()) {
                     moves++;
                     getChessBoard().move(temp1.getPiece(), temp2);
                 } else {
                     System.out.println("Illegal Move. Type I for instructions.");
+                    continue;
+                }
+                if(underCheck(false)) {
+                    getChessBoard().move(temp2.getPiece(),temp1);
+                    temp2.setPiece(martyr);
+                    System.out.println("Illegal Move. King under check");
+                    moves--;
                     continue;
                 }
             } else {
@@ -100,11 +108,18 @@ public class ChessGame {
                     System.out.println("Bad input. Type I for instructions.");
                     continue;
                 }
-                if (checkLegal() && !underCheck(true)) {
+                if (checkLegal()) {
                     moves++;
                     getChessBoard().move(temp1.getPiece(), temp2);
                 } else {
                     System.out.println("Illegal Move. Type I for instructions.");
+                    continue;
+                }
+                if(underCheck(true)) {
+                    getChessBoard().move(temp2.getPiece(),temp1);
+                    temp2.setPiece(martyr);
+                    System.out.println("Illegal Move. King under check");
+                    moves--;
                     continue;
                 }
             }
@@ -116,6 +131,7 @@ public class ChessGame {
         if (m.matches()) {
             temp1 = getChessBoard().getBlock(m.group(1).charAt(0), Integer.parseInt(m.group(2)));
             temp2 = getChessBoard().getBlock(m.group(3).charAt(0), Integer.parseInt(m.group(4)));
+            martyr = temp2.getPiece();
             if (temp1 == null || temp2 == null || temp1.getPiece() == null || temp1 == temp2) return false;
             else {
                 return true;
@@ -129,6 +145,9 @@ public class ChessGame {
         //getChessBoard().move(temp1.getPiece(),temp2);        Actually make the move after checking if its legal
         char piece = temp1.getPiece().getSymbol().charAt(0);
 
+        if(temp2.getPiece()!=null){
+            if(temp2.getPiece().isColour()==temp1.getPiece().isColour()) return false;
+        }
         switch (piece) {
             case 'P':
                 return checkPawn();
@@ -141,9 +160,9 @@ public class ChessGame {
             case 'R':
                 return checkRook();
             case 'N':
-                break;
+                return checkKnight();
         }
-        return true;
+        return false;
     }
 
     private boolean checkPawn() {
@@ -292,12 +311,26 @@ public class ChessGame {
         else return true;
     }
 
+    private boolean checkKnight(){
+        int startRow = temp1.getRow();
+        int startColumn = temp1.getColumn();
+        int endRow = temp2.getRow();
+        int endColumn = temp2.getColumn();
+        boolean colour = temp1.getPiece().isColour();
+        int horizontal = endColumn - startColumn;
+        int vertical = endRow - startRow;
+
+        if(Math.abs(horizontal)==3 && Math.abs(vertical)==1) { return true;}
+        else if(Math.abs(horizontal)==1 && Math.abs(vertical)==3) { return true;}
+        else return false;
+    }
+
     private boolean underCheck(Boolean color) {
         ChessBoard.ChessBoardBLock actual1 = temp1;
         ChessBoard.ChessBoardBLock actual2 = temp2;
-        if(color){
-            temp2 = pieces[4].getCurrent();
-            for(int i=15;i<32;i++){
+        if(!color){
+            temp2 = pieces[20].getCurrent();
+            for(int i=0;i<16;i++){
                 temp1 = pieces[i].getCurrent();
                 if(pieces[i].isLife() && checkLegal()) {
                     temp1 = actual1;
@@ -309,8 +342,8 @@ public class ChessGame {
             temp2 =actual2;
             return false;
         }else {
-            temp2 = pieces[20].getCurrent();
-            for(int i=0;i<16;i++){
+            temp2 = pieces[4].getCurrent();
+            for(int i=16;i<32;i++){
                 temp1 = pieces[i].getCurrent();
                 if(pieces[i].isLife() && checkLegal()) {
                     temp1 = actual1;

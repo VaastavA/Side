@@ -12,7 +12,7 @@ public class ChessBoard {
     }
 
     public void printBoard() {
-        System.out.println("Chess Board\n\n");
+        System.out.println("Chess Board\n");
         System.out.println(LINE);
         for (int i = 7; i > -1; i--) {
             System.out.print((i + 1) + " ");
@@ -96,8 +96,6 @@ public class ChessBoard {
 
     public ChessBoardBLock getBlock(char c, int i) {
         if (c >= 'A' && c <= 'H' && i < 9 && i > 0) {
-            System.out.println((c - 'A') + "   " + (i - 1));
-            System.out.println(board[i-1][c-'A'].getPiece());
             return board[i - 1][c - 'A'];   //column, rows
         } else return null;
     }
