@@ -1,17 +1,18 @@
 public class Cell {
-    boolean open;
+    CellState cs;
     Coordinates cd;
+    int maxY;
 
-    public void setOpen(boolean open) {
-        this.open = open;
+    public CellState getCs() {
+        return cs;
     }
 
-    public boolean isOpen() {
-        return open;
+    public void setCs(CellState cs) {
+        this.cs = cs;
     }
 
     public Cell() {
-        this.open = true;
+        this.cs = CellState.CLOSED;
     }
 
     class Coordinates{
@@ -50,7 +51,7 @@ public class Cell {
         }
 
         public int ComputeActual(){
-
+            return (x*maxY)+y;
         }
     }
 

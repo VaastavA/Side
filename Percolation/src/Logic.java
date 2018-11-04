@@ -1,18 +1,50 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class Logic {
-    private
+    private UnionFind UF;
     private Cell[][] grid;
     private Cell[][] gridUpdate;
+    private int gridSize;
+
+    public Logic(int size) {
+        this.UF = new UnionFind(size);
+        defaultCell(grid);
+        defaultCell(gridUpdate);
+        gridSize = size;
+    }
+
+    public void defaultCell(Cell[][] a) {
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; i < a[i].length; j++) {
+                a[i][j] = new Cell();
+                a[i][j].cd.setX(i);
+                a[i][j].cd.setY(j);
+            }
+        }
+    }
+
+    public void MonteCarlo(){
+        Random r = new Random(3);
+        while (true){
+            int now = r.nextInt(gridSize*gridSize);
+            if(grid[now/gridSize][now%gridSize].cs==CellState.OPEN) continue;
+            else {
+                grid[now/gridSize][now%gridSize].cs = CellState.OPEN;
+            }
+        }
+    }
+
 
     public void update() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                if (liveToNext(i, j)) {
-                    gridUpdate[i][j].setLiving(true);
+                if(grid[i][j].cs!=CellState.CLOSED)
+                if (flows(i, j)) {
+                    gridUpdate[i][j].setCs(CellState.FLOWING);
                 } else {
-                    gridUpdate[i][j].setLiving(false);
+                    gridUpdate[i][j].setCs(grid[i][j].cs);
                 }
             }
         }
@@ -47,10 +79,13 @@ public class Logic {
 
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                if (grid[i][j].getLiving()) {
+                if (grid[i][j].getCs() == CellState.CLOSED) {
                     gridGUI[i][j].setBackground(Color.black);
-                } else {
+                }
+                if (grid[i][j].getCs() == CellState.OPEN) {
                     gridGUI[i][j].setBackground(Color.white);
+                } else {
+                    gridGUI[i][j].setBackground(Color.BLUE);
                 }
             }
         }
