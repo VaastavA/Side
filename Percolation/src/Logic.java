@@ -44,7 +44,6 @@ public class Logic {
                 break;
             }
         }
-        printGrid();
     }
 
     public void Union(int i,int j){
@@ -78,7 +77,6 @@ public class Logic {
                 grid[i][j].setCs(gridUpdate[i][j].getCs());
             }
         }
-        printGrid();
     }
 
     public static JFrame frame = new JFrame();

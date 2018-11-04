@@ -1,7 +1,6 @@
 public class Cell {
     CellState cs;
     Coordinates cd;
-    int maxY;
 
     public CellState getCs() {
         return cs;
@@ -13,13 +12,13 @@ public class Cell {
 
     public Cell(int i,int j, int size) {
         this.cs = CellState.CLOSED;
-        cd = new Coordinates(i,j);
-        maxY = size;
+        cd = new Coordinates(i,j,size);
 
     }
 
     class Coordinates{
         int x,y,actual;
+        int maxY;
 
         public int getY() {
             return y;
@@ -29,9 +28,10 @@ public class Cell {
             return actual;
         }
 
-        public Coordinates(int x, int y) {
+        public Coordinates(int x, int y,int size) {
             this.x = x;
             this.y = y;
+            maxY = size;
             actual = ComputeActual();
         }
 
@@ -54,7 +54,6 @@ public class Cell {
         }
 
         public int ComputeActual(){
-            System.out.println(x+" "+maxY+" "+y+" ");
             return (x*maxY)+y;
         }
     }

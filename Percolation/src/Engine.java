@@ -1,7 +1,7 @@
 public class Engine {
     public static void main(String[] args) {
 
-        Logic first = new Logic(10,0,0);
+        Logic first = new Logic(50,0,0);
         first.initGridGUI();
         boolean keepGoing = true;
         do
