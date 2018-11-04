@@ -11,8 +11,11 @@ public class Cell {
         this.cs = cs;
     }
 
-    public Cell() {
+    public Cell(int i,int j, int size) {
         this.cs = CellState.CLOSED;
+        cd = new Coordinates(i,j);
+        maxY = size;
+
     }
 
     class Coordinates{
@@ -51,6 +54,7 @@ public class Cell {
         }
 
         public int ComputeActual(){
+            System.out.println(x+" "+maxY+" "+y+" ");
             return (x*maxY)+y;
         }
     }

@@ -5,6 +5,9 @@ public class UnionFind {
     public UnionFind(int size) {
         connections = new int[size*size];
         this.sz = new int[size*size];
+        for(int i=0;i<connections.length;i++){
+            connections[i] = i;
+        }
     }
 
     public int[] getConnections() {
@@ -37,6 +40,7 @@ public class UnionFind {
     }
 
     public boolean connected(Cell a,Cell b){
+        System.out.println(a.cd.actual+"  vs   "+b.cd.actual);
         return  find(a.cd.actual)==find(b.cd.actual);
     }
 
