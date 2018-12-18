@@ -7,5 +7,5 @@ int main() {
    // S1.solve();
    // S1.toString();
     S2.solve();
-    cout << S2.toString();
+    S2.out_file("output");
 }

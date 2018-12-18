@@ -19,15 +19,15 @@ using namespace std;
 
 class SudokuSolver {
 public:
-
-
-
     int table[9][9];
 
-    SudokuSolver(string fileAddres) {
+    SudokuSolver(string file_addres) {
         ifstream file;
-        file.open(fileAddres);
-        //if (!file || file.tellg()==0) exit(1);
+        file.open(file_addres);
+        if (file.fail()) {
+            cerr << "Error Opening file\n";
+            exit(1);
+        }
         rep(i, N) {
             rep(j, N) {
                 string temp;
@@ -53,13 +53,52 @@ public:
         solveR(table);
     }
 
+    //check valid a,b and i,j at every point
+
+
+
+
+
+    string toString(){
+        int count = 0;
+        string out = "";
+        for(int i=0;i<N;i++){
+            if(i%3==0) out+=part;
+            for(auto j:table[i]){
+                if(count%3==0) out+="| ";
+                out += (j+48);
+                out+=" ";
+                count++;
+            }
+            out+="|\n";
+        }
+        out+=part;
+
+        return out;
+    }
+
+    void out_file(string file_name){
+        ofstream file;
+        file.open(file_name);
+        if(file.fail()) {
+            std::cerr << "Error Opening File";
+            exit(1);
+        }
+
+        file << toString();
+    }
+
+
+
+private:
+    string part = "-------------------------\n";
+
     bool solveR(int grid[][N]){
         pair<int,int> vacant = checkEmpty(grid);
         if(vacant.first == -1) return true;
         vector<int> option = possibleOptions(grid,vacant.first,vacant.second);
         if(option.size()==0) return false;
         for(auto i:option){
-            cout << i << " op " << vacant.first << " " << vacant.second << endl;
             grid[vacant.first][vacant.second] = i;
             if(solveR(grid)){
                 return true;
@@ -68,8 +107,6 @@ public:
         grid[vacant.first][vacant.second] = 0;
         return false;
     }
-
-    //check valid a,b and i,j at every point
 
     pair<int, int> checkEmpty(int grid[][N]) {
         rep(i, N) {
@@ -94,7 +131,7 @@ public:
         }
         rep(i, N) {
             if (grid[i][b] != 0) {
-               // cout << grid[i][b] << " row " << endl;
+                // cout << grid[i][b] << " row " << endl;
                 v.erase(remove(v.begin(), v.end(), grid[i][b]), v.end());
             }
         }
@@ -118,18 +155,6 @@ public:
         }
     }
 
-    string toString(){
-        string out = "";
-        for(int i=0;i<N;i++){
-            for(auto j:table[i]){
-                out += (j+48);
-                out+=" ";
-            }
-            out+="\n";
-        }
-
-        return out;
-    }
 
     pair<int, int> Block1[9] {make_pair(0, 0), make_pair(0, 1), make_pair(0, 2), make_pair(1, 0), make_pair(1, 1), make_pair(1, 2), make_pair(2, 0), make_pair(2, 1), make_pair(2, 2)};
     pair<int, int> Block2[9] = {make_pair(0, 3), make_pair(0, 4), make_pair(0, 5), make_pair(1, 3), make_pair(1, 4), make_pair(1, 5), make_pair(2, 3), make_pair(2, 4), make_pair(2, 5)};
