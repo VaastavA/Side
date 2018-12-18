@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/SudokuSolver.dir/main.cpp.obj"
-  "CMakeFiles/SudokuSolver.dir/SudokuSolver.cpp.obj"
   "SudokuSolver.pdb"
   "SudokuSolver.exe"
   "SudokuSolver.exe.manifest"

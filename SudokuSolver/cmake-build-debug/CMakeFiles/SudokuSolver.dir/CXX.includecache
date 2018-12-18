@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Krishna/CLionProjects/SudokuSolver/SudokuSolver.h
+stdio.h
+-
+bits/stdc++.h
+-
+algorithm
+-
+cmath
+-
+fstream
+-
+iostream
+-
+
+C:/Users/Krishna/CLionProjects/SudokuSolver/main.cpp
+iostream
+-
+SudokuSolver.h
+C:/Users/Krishna/CLionProjects/SudokuSolver/SudokuSolver.h
+

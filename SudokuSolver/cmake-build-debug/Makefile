@@ -122,33 +122,6 @@ SudokuSolver/fast:
 	$(MAKE) -f CMakeFiles\SudokuSolver.dir\build.make CMakeFiles/SudokuSolver.dir/build
 .PHONY : SudokuSolver/fast
 
-SudokuSolver.obj: SudokuSolver.cpp.obj
-
-.PHONY : SudokuSolver.obj
-
-# target to build an object file
-SudokuSolver.cpp.obj:
-	$(MAKE) -f CMakeFiles\SudokuSolver.dir\build.make CMakeFiles/SudokuSolver.dir/SudokuSolver.cpp.obj
-.PHONY : SudokuSolver.cpp.obj
-
-SudokuSolver.i: SudokuSolver.cpp.i
-
-.PHONY : SudokuSolver.i
-
-# target to preprocess a source file
-SudokuSolver.cpp.i:
-	$(MAKE) -f CMakeFiles\SudokuSolver.dir\build.make CMakeFiles/SudokuSolver.dir/SudokuSolver.cpp.i
-.PHONY : SudokuSolver.cpp.i
-
-SudokuSolver.s: SudokuSolver.cpp.s
-
-.PHONY : SudokuSolver.s
-
-# target to generate assembly for a file
-SudokuSolver.cpp.s:
-	$(MAKE) -f CMakeFiles\SudokuSolver.dir\build.make CMakeFiles/SudokuSolver.dir/SudokuSolver.cpp.s
-.PHONY : SudokuSolver.cpp.s
-
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -185,9 +158,6 @@ help:
 	@echo ... SudokuSolver
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... SudokuSolver.obj
-	@echo ... SudokuSolver.i
-	@echo ... SudokuSolver.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
